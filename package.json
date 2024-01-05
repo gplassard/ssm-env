@@ -1,0 +1,10 @@
+{
+  "name": "ssm-env",
+  "version": "0.1.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "@gplassard/projen-extensions": "^0.0.73",
+    "projen": "^0.78.8"
+  }
+}
