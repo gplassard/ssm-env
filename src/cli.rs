@@ -12,5 +12,5 @@ pub enum SubCommand {
     Exec {
         #[arg(trailing_var_arg = true, allow_hyphen_values = true, hide = true)]
         args: Vec<String>,
-    }
+    },
 }
