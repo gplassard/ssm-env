@@ -8,6 +8,8 @@ name = "ssm-env"
 
 [dependencies]
 aws-sdk-ssm = "1.9.0"
+log = "0.4.20"
+env_logger = "0.10.1"
 
   [dependencies.aws-config]
   version = "1.1.1"
@@ -16,3 +18,7 @@ aws-sdk-ssm = "1.9.0"
   [dependencies.tokio]
   version = "1"
   features = [ "full" ]
+
+  [dependencies.clap]
+  version = "4.4"
+  features = [ "derive" ]
