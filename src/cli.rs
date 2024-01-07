@@ -5,11 +5,11 @@ use log::LevelFilter;
 /// Retrieve parameters from AWS Systems Manager Parameter Store and expose them as environment variables
 pub struct Cli {
     /// Configure the log level of logs
-    #[structopt(short, long, default_value="INFO")]
+    #[structopt(short, long, default_value = "INFO")]
     pub log_level: LevelFilter,
 
     /// The SSM path from which to retrieve the parameters
-    #[structopt(short, long, default_value="/")]
+    #[structopt(short, long, default_value = "/")]
     pub path: String,
 
     #[command(subcommand)]

@@ -5,9 +5,9 @@ use aws_sdk_ssm as ssm;
 
 use crate::cli::SubCommand;
 use clap::Parser;
+use cli::Cli;
 use env_logger::Builder;
 use log::{debug, info};
-use cli::Cli;
 
 mod cli;
 
@@ -34,7 +34,9 @@ async fn main() -> Result<(), ssm::Error> {
         .parameters()
         .iter()
         .filter_map(|parameter| match (parameter.name(), parameter.value()) {
-            (Some(name), Some(value)) => Some((name.to_string().replacen(&path, "", 1), value.to_string())),
+            (Some(name), Some(value)) => {
+                Some((name.to_string().replacen(&path, "", 1), value.to_string()))
+            }
             _ => None,
         })
         .collect();
@@ -46,7 +48,10 @@ async fn main() -> Result<(), ssm::Error> {
 }
 
 fn exec(command: String, args: Vec<String>, env_variables: HashMap<String, String>) {
-    info!("The following environment variables will be exposed {:?}", env_variables.keys());
+    info!(
+        "The following environment variables will be exposed {:?}",
+        env_variables.keys()
+    );
     info!("Executing {} with args {:?}", command, args);
     Command::new(command)
         .args(args)
