@@ -15,7 +15,8 @@ const project = new RustProject({
           'tokio': {version: '1', features: ['full']},
           'log': '0.4.20',
           'env_logger': '0.10.1',
-          'clap': {version: '4.4', features: ['derive']}
+          'clap': {version: '4.4', features: ['derive']},
+          'tempfile': '3.9',
       }
    }
 });
