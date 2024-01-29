@@ -1,63 +1,50 @@
-use std::collections::HashMap;
-use std::process::Command;
+use aws_sdk_ssm::Client;
+use clap::Parser;
+use env_logger::Builder;
+use log::debug;
 
-use aws_sdk_ssm as ssm;
+use cli::Cli;
 
 use crate::cli::SubCommand;
-use clap::Parser;
-use cli::Cli;
-use env_logger::Builder;
-use log::{debug, info};
+use crate::commands::{command_exec, command_exec_ansible_vault_mode};
+use crate::errors::CliError;
+use crate::ssm::{fetch_ssm_parameter, fetch_ssm_parameters};
 
 mod cli;
+mod commands;
+mod errors;
+mod ssm;
 
 #[::tokio::main]
-#[allow(clippy::result_large_err)]
-async fn main() -> Result<(), ssm::Error> {
+async fn main() -> Result<(), CliError> {
     let cli = Cli::parse();
     Builder::new().filter_level(cli.log_level).init();
 
-    debug!("retrieving AWS credentials");
-    let aws_config = aws_config::load_from_env().await;
-    let ssm_client = aws_sdk_ssm::Client::new(&aws_config);
-
-    let path = cli.path;
-    debug!("retrieving SSM parameters from path {}", &path);
-    let result = ssm_client
-        .get_parameters_by_path()
-        .path(&path)
-        .send()
-        .await?;
-    debug!("SSM parameters retrieved");
-
-    let env_variables: HashMap<String, String> = result
-        .parameters()
-        .iter()
-        .filter_map(|parameter| match (parameter.name(), parameter.value()) {
-            (Some(name), Some(value)) => {
-                Some((name.to_string().replacen(&path, "", 1), value.to_string()))
-            }
-            _ => None,
-        })
-        .collect();
-
-    match cli.command {
-        SubCommand::Exec { command, args } => exec(command, args, env_variables),
-    };
-    Ok(())
+    run(cli).await?
 }
 
-fn exec(command: String, args: Vec<String>, env_variables: HashMap<String, String>) {
-    info!(
-        "The following environment variables will be exposed {:?}",
-        env_variables.keys()
-    );
-    info!("Executing {} with args {:?}", command, args);
-    Command::new(command)
-        .args(args)
-        .envs(env_variables)
-        .spawn()
-        .expect("Error spawning command")
-        .wait()
-        .expect("Command failed");
+async fn run(cli: Cli) -> Result<Result<(), CliError>, CliError> {
+    debug!("retrieving AWS credentials");
+    let aws_config = aws_config::load_from_env().await;
+    let ssm_client = Client::new(&aws_config);
+
+    match cli.command {
+        SubCommand::Exec {
+            ssm_path_prefix,
+            command,
+            args,
+        } => {
+            let env_variables = fetch_ssm_parameters(ssm_client, ssm_path_prefix).await?;
+            command_exec(command, args, env_variables)?
+        }
+        SubCommand::ExecAnsibleVaultMode {
+            ssm_path,
+            command,
+            args,
+        } => {
+            let secret = fetch_ssm_parameter(ssm_client, ssm_path).await?;
+            command_exec_ansible_vault_mode(command, args, secret)?
+        }
+    };
+    Ok(Ok(()))
 }

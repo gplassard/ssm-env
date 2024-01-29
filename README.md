@@ -17,11 +17,14 @@ cargo install --path .
 ssm-env --help
 ssm-env exec --help
 
-# execute with credentials retrieved from aws-vault
+# execute with credentials retrieved from AWS Parameter Store at /app/ssm-env/env/<ENV_VARIABLE>
 aws-vault exec admin -- ssm-env exec powershell Get-ChildItem Env:
+# execute with credentials retrieved from AWS Parameter Store at /app/ssm-env/ansible-vault and put in a temporary file compatible with ansible vault
+aws-vault exec admin -- ssm-env  exec-ansible-vault-mode powershell Get-ChildItem Env:
 ```
 
 Running from cargo
 ```bash
 aws-vault exec admin -- cargo run -- exec powershell Get-ChildItem Env:
+aws-vault exec admin -- cargo run -- exec-ansible-vault-mode powershell Get-ChildItem Env:
 ```

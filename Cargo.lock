@@ -1323,6 +1323,7 @@ dependencies = [
  "clap",
  "env_logger",
  "log",
+ "tempfile",
  "tokio",
 ]
 
@@ -1347,6 +1348,19 @@ dependencies = [
  "proc-macro2",
  "quote",
  "unicode-ident",
+]
+
+[[package]]
+name = "tempfile"
+version = "3.9.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "01ce4141aa927a6d1bd34a041795abd0db1cccba5d5f24b009f694bdf3a1f3fa"
+dependencies = [
+ "cfg-if",
+ "fastrand",
+ "redox_syscall",
+ "rustix",
+ "windows-sys 0.52.0",
 ]
 
 [[package]]
