@@ -7,7 +7,6 @@ pub struct CliError {
     error: Option<Box<dyn std::error::Error>>,
 }
 
-
 impl From<SsmError> for CliError {
     fn from(error: SsmError) -> Self {
         CliError {

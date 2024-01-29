@@ -11,9 +11,9 @@ use crate::errors::CliError;
 use crate::ssm::{fetch_ssm_parameter, fetch_ssm_parameters};
 
 mod cli;
+mod commands;
 mod errors;
 mod ssm;
-mod commands;
 
 #[::tokio::main]
 async fn main() -> Result<(), CliError> {
@@ -28,16 +28,23 @@ async fn run(cli: Cli) -> Result<Result<(), CliError>, CliError> {
     let aws_config = aws_config::load_from_env().await;
     let ssm_client = Client::new(&aws_config);
 
-
     match cli.command {
-        SubCommand::Exec { ssm_path_prefix, command, args } => {
+        SubCommand::Exec {
+            ssm_path_prefix,
+            command,
+            args,
+        } => {
             let env_variables = fetch_ssm_parameters(ssm_client, ssm_path_prefix).await?;
             command_exec(command, args, env_variables)?
-        },
-        SubCommand::ExecAnsibleVaultMode { ssm_path, command, args } => {
+        }
+        SubCommand::ExecAnsibleVaultMode {
+            ssm_path,
+            command,
+            args,
+        } => {
             let secret = fetch_ssm_parameter(ssm_client, ssm_path).await?;
             command_exec_ansible_vault_mode(command, args, secret)?
-        },
+        }
     };
     Ok(Ok(()))
 }
