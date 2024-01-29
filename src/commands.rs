@@ -10,7 +10,7 @@ pub fn command_exec_ansible_vault_mode(command: String, args: Vec<String>, secre
     let vault_file_name = &vault_file.path().to_str().unwrap_or("ssm-env-default").to_string();
     info!("Temporary file {:?} created", &vault_file_name);
     vault_file.write_all(secret.ok_or(CliError::from("The provided secret is empty"))?.as_bytes())?;
-    let env_variables: HashMap<String, String> = [("DEFAULT_VAULT_PASSWORD_FILE".to_string(), "".to_string())].iter().cloned().collect();
+    let env_variables: HashMap<String, String> = [("DEFAULT_VAULT_PASSWORD_FILE".to_string(), vault_file_name.to_string())].iter().cloned().collect();
     let res = command_exec(command, args, env_variables)?;
     vault_file.close()?;
     info!("Temporary file {:?} cleaned", &vault_file_name);
