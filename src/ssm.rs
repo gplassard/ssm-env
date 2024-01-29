@@ -33,5 +33,5 @@ pub async fn fetch_ssm_parameter(ssm_client: Client, path: String) -> Result<Opt
         .await?;
     debug!("SSM parameter retrieved");
 
-    Ok(result.parameter.map(|p| p.value).flatten())
+    Ok(result.parameter.and_then(|p| p.value))
 }
