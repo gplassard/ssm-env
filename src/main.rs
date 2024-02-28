@@ -1,3 +1,4 @@
+use std::fmt::format;
 use aws_sdk_ssm::Client;
 use clap::Parser;
 use env_logger::Builder;
@@ -31,10 +32,14 @@ async fn run(cli: Cli) -> Result<Result<(), CliError>, CliError> {
     match cli.command {
         SubCommand::Exec {
             ssm_path_prefix,
+            context,
             command,
             args,
         } => {
-            let env_variables = fetch_ssm_parameters(ssm_client, ssm_path_prefix).await?;
+            let path = context
+                .map(|c| format!("/app/ssm-env/env/{}/", c))
+                .unwrap_or(ssm_path_prefix);
+            let env_variables = fetch_ssm_parameters(ssm_client, path).await?;
             command_exec(command, args, env_variables)?
         }
         SubCommand::ExecAnsibleVaultMode {
