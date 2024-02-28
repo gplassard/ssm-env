@@ -18,7 +18,12 @@ pub enum SubCommand {
     Exec {
         /// The SSM path prefix from which to retrieve the parameters.
         /// Cannot be used in conjunction with the context argument
-        #[arg(short, long, default_value = "/app/ssm-env/env/", conflicts_with = "context")]
+        #[arg(
+            short,
+            long,
+            default_value = "/app/ssm-env/env/",
+            conflicts_with = "context"
+        )]
         ssm_path_prefix: String,
         /// When using the context argument, environment variables will be retrieved from "/app/ssm-env/env/{context}/" instead.
         /// Cannot be used in conjunction with the ssm_path_prefix argument
