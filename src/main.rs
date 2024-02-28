@@ -1,4 +1,3 @@
-use std::fmt::format;
 use aws_sdk_ssm::Client;
 use clap::Parser;
 use env_logger::Builder;
