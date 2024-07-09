@@ -19,6 +19,10 @@ pub enum SubCommand {
         /// The SSM path prefix from which to retrieve the parameters
         #[arg(short, long, default_value = "/app/ssm-env/env/")]
         ssm_path_prefix: String,
+        /// The contexts to retrieve before executing the command, for each context all the ssm entries from
+        /// `/app/ssm-env/<context>/` will be added as environment variables
+        #[arg(short, long, conflicts_with = "ssm_path_prefix")]
+        contexts: Vec<String>,
         /// The command to execute
         #[arg()]
         command: String,

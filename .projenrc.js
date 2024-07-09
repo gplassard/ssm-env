@@ -17,6 +17,7 @@ const project = new RustProject({
           'env_logger': '0.10.1',
           'clap': {version: '4.4', features: ['derive']},
           'tempfile': '3.9',
+          'futures': '0.3',
       }
    }
 });

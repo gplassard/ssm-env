@@ -2,9 +2,23 @@ use aws_sdk_ssm::Client;
 use aws_sdk_ssm::Error as SsmError;
 use log::debug;
 use std::collections::HashMap;
+use futures::stream::FuturesUnordered;
+
+pub async fn fetch_all_ssm_parameters(ssm_client: &Client,
+                                path_prefixes: Vec<String>) -> Result<HashMap<String, String>, SsmError> {
+    let all: Vec<HashMap<String, String>> = path_prefixes
+        .iter()
+        .map(|p| fetch_ssm_parameters(ssm_client, p.to_string()))
+        .collect::<FuturesUnordered<_>>()
+        .collect()
+        .await;
+
+    todo!()
+}
+
 
 pub async fn fetch_ssm_parameters(
-    ssm_client: Client,
+    ssm_client: &Client,
     path_prefix: String,
 ) -> Result<HashMap<String, String>, SsmError> {
     debug!("retrieving SSM parameters from path {}", &path_prefix);
@@ -29,7 +43,7 @@ pub async fn fetch_ssm_parameters(
     Ok(env_variables)
 }
 pub async fn fetch_ssm_parameter(
-    ssm_client: Client,
+    ssm_client: &Client,
     path: String,
 ) -> Result<Option<String>, SsmError> {
     debug!("retrieving SSM parameter {}", &path);

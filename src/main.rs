@@ -8,7 +8,7 @@ use cli::Cli;
 use crate::cli::SubCommand;
 use crate::commands::{command_exec, command_exec_ansible_vault_mode};
 use crate::errors::CliError;
-use crate::ssm::{fetch_ssm_parameter, fetch_ssm_parameters};
+use crate::ssm::{fetch_all_ssm_parameters, fetch_ssm_parameter, fetch_ssm_parameters};
 
 mod cli;
 mod commands;
@@ -31,10 +31,14 @@ async fn run(cli: Cli) -> Result<Result<(), CliError>, CliError> {
     match cli.command {
         SubCommand::Exec {
             ssm_path_prefix,
+            contexts,
             command,
             args,
         } => {
-            let env_variables = fetch_ssm_parameters(ssm_client, ssm_path_prefix).await?;
+            let env_variables =  match contexts.len() {
+                0 => fetch_ssm_parameters(&ssm_client, ssm_path_prefix).await?,
+                _ => fetch_all_ssm_parameters(&ssm_client, contexts.iter().map(|context| "/app/ssm-env/".to_owned() + context + "/").collect()).await?
+            };
             command_exec(command, args, env_variables)?
         }
         SubCommand::ExecAnsibleVaultMode {
@@ -42,7 +46,7 @@ async fn run(cli: Cli) -> Result<Result<(), CliError>, CliError> {
             command,
             args,
         } => {
-            let secret = fetch_ssm_parameter(ssm_client, ssm_path).await?;
+            let secret = fetch_ssm_parameter(&ssm_client, ssm_path).await?;
             command_exec_ansible_vault_mode(command, args, secret)?
         }
     };
