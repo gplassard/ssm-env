@@ -1,5 +1,8 @@
 name: rust-cross-build
 on:
+  push:
+    branches:
+      - build
   pull_request_target:
     types:
       - labeled
