@@ -2,7 +2,7 @@
 
 [package]
 authors = [ "Gabriel Plassard <gabriel.plassard@gmail.com>" ]
-version = "0.1.3"
+version = "0.1.4"
 edition = "2021"
 name = "ssm-env"
 
