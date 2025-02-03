@@ -18,9 +18,13 @@ ssm-env --help
 ssm-env exec --help
 
 # execute with credentials retrieved from AWS Parameter Store at /app/ssm-env/env/<ENV_VARIABLE>
-aws-vault exec admin -- ssm-env exec powershell Get-ChildItem Env:
+aws-vault exec admin -- ssm-env exec -- <command>
+# execute with credentials retrieved from AWS Parameter Store at /app/ssm-env/env/context-1/<ENV_VARIABLE> and /app/ssm-env/env/context-2/<ENV_VARIABLE>
+aws-vault exec admin -- ssm-env exec --contexts context-1 --contexts context-2 -- <command>
+# execute with credentials retrieved from AWS Parameter Store at /my/prefix-1/<ENV_VARIABLE> and /my/prefix-2/<ENV_VARIABLE>
+aws-vault exec admin -- ssm-env exec --ssm-path-prefixes /my/prefix-1/ --ssm-path-prefixes /my/prefix-2/ -- <command>
 # execute with credentials retrieved from AWS Parameter Store at /app/ssm-env/ansible-vault and put in a temporary file compatible with ansible vault
-aws-vault exec admin -- ssm-env  exec-ansible-vault-mode powershell Get-ChildItem Env:
+aws-vault exec admin -- ssm-env  exec-ansible-vault-mode -- <command>
 ```
 
 Running from cargo (windows)
