@@ -23,8 +23,14 @@ aws-vault exec admin -- ssm-env exec powershell Get-ChildItem Env:
 aws-vault exec admin -- ssm-env  exec-ansible-vault-mode powershell Get-ChildItem Env:
 ```
 
-Running from cargo
+Running from cargo (windows)
 ```bash
 aws-vault exec admin -- cargo run -- exec powershell Get-ChildItem Env:
 aws-vault exec admin -- cargo run -- exec-ansible-vault-mode powershell Get-ChildItem Env:
+```
+
+Running from cargo (unix)
+```bash
+aws-vault exec admin -- cargo run -- exec env
+aws-vault exec admin -- cargo run -- exec-ansible-vault-mode env
 ```

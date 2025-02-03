@@ -2,6 +2,7 @@ use aws_sdk_ssm::Client;
 use clap::Parser;
 use env_logger::Builder;
 use log::debug;
+use std::collections::HashMap;
 
 use cli::Cli;
 
@@ -30,15 +31,30 @@ async fn run(cli: Cli) -> Result<Result<(), CliError>, CliError> {
 
     match cli.command {
         SubCommand::Exec {
-            ssm_path_prefix,
-            context,
+            ssm_path_prefixes,
+            contexts,
             command,
             args,
         } => {
-            let path = context
-                .map(|c| format!("/app/ssm-env/env/{}/", c))
-                .unwrap_or(ssm_path_prefix);
-            let env_variables = fetch_ssm_parameters(ssm_client, path).await?;
+            let mut env_variables: HashMap<String, String> = HashMap::new();
+
+            if contexts.is_empty() && ssm_path_prefixes.is_empty() {
+                // Fallback to default path
+                let default_path = "/app/ssm-env/env".to_string();
+                let parameters = fetch_ssm_parameters(ssm_client.clone(), default_path).await?;
+                env_variables.extend(parameters);
+            } else {
+                for context in contexts {
+                    let path = format!("/app/ssm-env/env/{}/", context);
+                    let parameters = fetch_ssm_parameters(ssm_client.clone(), path).await?;
+                    env_variables.extend(parameters);
+                }
+                for prefix in ssm_path_prefixes {
+                    let parameters = fetch_ssm_parameters(ssm_client.clone(), prefix).await?;
+                    env_variables.extend(parameters);
+                }
+            }
+
             command_exec(command, args, env_variables)?
         }
         SubCommand::ExecAnsibleVaultMode {
