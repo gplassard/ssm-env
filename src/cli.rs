@@ -3,6 +3,7 @@ use log::LevelFilter;
 
 #[derive(Parser)]
 /// Retrieve parameters from AWS Systems Manager Parameter Store and expose them as environment variables
+#[command(version)]
 pub struct Cli {
     /// Configure the log level of logs
     #[arg(short, long, default_value = "INFO")]
@@ -41,5 +42,5 @@ pub enum SubCommand {
         /// The args to pass to the command
         #[arg(trailing_var_arg = true, allow_hyphen_values = true)]
         args: Vec<String>,
-    },
+    }
 }
