@@ -3,6 +3,7 @@ use log::LevelFilter;
 
 #[derive(Parser)]
 /// Retrieve parameters from AWS Systems Manager Parameter Store and expose them as environment variables
+#[command(version)]
 pub struct Cli {
     /// Configure the log level of logs
     #[arg(short, long, default_value = "INFO")]
