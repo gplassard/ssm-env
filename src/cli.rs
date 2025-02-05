@@ -42,5 +42,5 @@ pub enum SubCommand {
         /// The args to pass to the command
         #[arg(trailing_var_arg = true, allow_hyphen_values = true)]
         args: Vec<String>,
-    }
+    },
 }
