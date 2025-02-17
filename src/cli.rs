@@ -16,12 +16,12 @@ pub struct Cli {
 #[derive(Subcommand)]
 pub enum SubCommand {
     /// Executes a subcommand in a new process with environment variables populated from AWS SSM Parameter Store
-    /// If neither ssm_path_prefixes nor contexts are provided, values will be retrieved from the "/app/ssm-env/env/" path.
+    /// If neither ssm_path_prefixes nor contexts are provided, values will be retrieved from the "/app/ssm-env/env/<ENV_VARIABLES>" path.
     Exec {
         /// The SSM path prefixes from which to retrieve the parameters.
         #[arg(short, long)]
         ssm_path_prefixes: Vec<String>,
-        /// When using the contexts argument, environment variables coming from "/app/ssm-env/env/{context}/" will be injected.
+        /// When using the contexts argument, environment variables coming from "/app/ssm-env/env/{context}/<ENV_VARIABLES>" will be injected.
         #[arg(short, long)]
         contexts: Vec<String>,
         /// The command to execute

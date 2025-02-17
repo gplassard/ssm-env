@@ -40,7 +40,7 @@ async fn run(cli: Cli) -> Result<Result<(), CliError>, CliError> {
 
             if contexts.is_empty() && ssm_path_prefixes.is_empty() {
                 // Fallback to default path
-                let default_path = "/app/ssm-env/env".to_string();
+                let default_path = "/app/ssm-env/env/".to_string();
                 let parameters = fetch_ssm_parameters(ssm_client.clone(), default_path).await?;
                 env_variables.extend(parameters);
             } else {
