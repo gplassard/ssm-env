@@ -41,8 +41,11 @@ pub fn command_exec(
     env_variables: HashMap<String, String>,
     env_prefix: Option<String>,
 ) -> Result<ExitStatus, CliError> {
-    let prefixed_env_variables = match env_prefix  {
-        Some(prefix) => env_variables.iter().map(|(k, v)| (format!("{}{}", prefix, k), v.to_string())).collect(),
+    let prefixed_env_variables = match env_prefix {
+        Some(prefix) => env_variables
+            .iter()
+            .map(|(k, v)| (format!("{}{}", prefix, k), v.to_string()))
+            .collect(),
         None => env_variables,
     };
     info!(
