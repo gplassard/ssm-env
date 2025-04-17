@@ -33,6 +33,7 @@ async fn run(cli: Cli) -> Result<Result<(), CliError>, CliError> {
         SubCommand::Exec {
             ssm_path_prefixes,
             contexts,
+            env_prefix,
             command,
             args,
         } => {
@@ -55,7 +56,7 @@ async fn run(cli: Cli) -> Result<Result<(), CliError>, CliError> {
                 }
             }
 
-            command_exec(command, args, env_variables)?
+            command_exec(command, args, env_variables, env_prefix)?
         }
         SubCommand::ExecAnsibleVaultMode {
             ssm_path,

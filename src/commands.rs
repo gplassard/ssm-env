@@ -29,7 +29,7 @@ pub fn command_exec_ansible_vault_mode(
     .iter()
     .cloned()
     .collect();
-    let res = command_exec(command, args, env_variables)?;
+    let res = command_exec(command, args, env_variables, None)?;
     vault_file.close()?;
     info!("Temporary file {:?} cleaned", &vault_file_name);
     Ok(res)
@@ -39,15 +39,20 @@ pub fn command_exec(
     command: String,
     args: Vec<String>,
     env_variables: HashMap<String, String>,
+    env_prefix: Option<String>,
 ) -> Result<ExitStatus, CliError> {
+    let prefixed_env_variables = match env_prefix  {
+        Some(prefix) => env_variables.iter().map(|(k, v)| (format!("{}{}", prefix, k), v.to_string())).collect(),
+        None => env_variables,
+    };
     info!(
         "The following environment variables will be exposed {:?}",
-        env_variables.keys()
+        prefixed_env_variables.keys()
     );
     info!("Executing {} with args {:?}", command, args);
     let mut sub = Command::new(command)
         .args(args)
-        .envs(env_variables)
+        .envs(prefixed_env_variables)
         .spawn()?;
 
     sub.wait().map_err(|e| e.into())

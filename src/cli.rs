@@ -24,6 +24,9 @@ pub enum SubCommand {
         /// When using the contexts argument, environment variables coming from "/app/ssm-env/env/{context}/<ENV_VARIABLES>" will be injected.
         #[arg(short, long)]
         contexts: Vec<String>,
+        /// Will prefix the environment variables with the given prefix
+        #[arg(short, long)]
+        env_prefix: Option<String>,
         /// The command to execute
         #[arg()]
         command: String,
