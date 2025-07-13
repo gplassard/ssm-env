@@ -46,7 +46,7 @@ async fn run(cli: Cli) -> Result<Result<(), CliError>, CliError> {
                 env_variables.extend(parameters);
             } else {
                 for context in contexts {
-                    let path = format!("/app/ssm-env/env/{}/", context);
+                    let path = format!("/app/ssm-env/env/{context}/");
                     let parameters = fetch_ssm_parameters(ssm_client.clone(), path).await?;
                     env_variables.extend(parameters);
                 }
