@@ -44,7 +44,7 @@ pub fn command_exec(
     let prefixed_env_variables = match env_prefix {
         Some(prefix) => env_variables
             .iter()
-            .map(|(k, v)| (format!("{}{}", prefix, k), v.to_string()))
+            .map(|(k, v)| (format!("{prefix}{k}"), v.to_string()))
             .collect(),
         None => env_variables,
     };
