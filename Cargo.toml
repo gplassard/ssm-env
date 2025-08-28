@@ -7,17 +7,17 @@ edition = "2021"
 name = "ssm-env"
 
 [dependencies]
-aws-sdk-ssm = "1.64"
+aws-sdk-ssm = "1.91"
 log = "0.4"
 env_logger = "0.11"
-tempfile = "3.16"
+tempfile = "3.21"
 
   [dependencies.aws-config]
-  version = "1.5"
+  version = "1.8"
   features = [ "behavior-version-latest" ]
 
   [dependencies.tokio]
-  version = "1.43"
+  version = "1.47"
   features = [ "full" ]
 
   [dependencies.clap]

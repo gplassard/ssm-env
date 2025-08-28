@@ -10,13 +10,13 @@ const project = new RustProject({
          edition: '2021',
       },
       dependencies: {
-          'aws-config': {version: '1.5', features: ['behavior-version-latest']},
-          'aws-sdk-ssm': '1.64',
-          'tokio': {version: '1.43', features: ['full']},
+          'aws-config': {version: '1.8', features: ['behavior-version-latest']},
+          'aws-sdk-ssm': '1.91',
+          'tokio': {version: '1.47', features: ['full']},
           'log': '0.4',
           'env_logger': '0.11',
           'clap': {version: '4.5', features: ['derive']},
-          'tempfile': '3.16',
+          'tempfile': '3.21',
       }
    }
 });
