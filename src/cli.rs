@@ -34,7 +34,7 @@ pub enum SubCommand {
         #[arg(trailing_var_arg = true, allow_hyphen_values = true)]
         args: Vec<String>,
     },
-    /// Executes a subcommand with ansible-vault compatibility by creating a temporary file containing the secret and exposing the DEFAULT_VAULT_PASSWORD_FILE environment variable
+    /// Executes a subcommand with ansible-vault compatibility by creating a temporary file containing the secret and exposing the ANSIBLE_VAULT_PASSWORD_FILE environment variable
     ExecAnsibleVaultMode {
         /// The SSM path from which to retrieve the ansible-vault secret
         #[arg(short, long, default_value = "/app/ssm-env/ansible-vault")]

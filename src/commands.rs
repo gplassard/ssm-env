@@ -23,7 +23,7 @@ pub fn command_exec_ansible_vault_mode(
             .as_bytes(),
     )?;
     let env_variables: HashMap<String, String> = [(
-        "DEFAULT_VAULT_PASSWORD_FILE".to_string(),
+        "ANSIBLE_VAULT_PASSWORD_FILE".to_string(),
         vault_file_name.to_string(),
     )]
     .iter()
