@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.8](https://github.com/gplassard/ssm-env/compare/v0.3.7...v0.3.8) (2025-09-01)
+
+
+### Miscellaneous Chores
+
+* release 0.3.8 ([e78eef8](https://github.com/gplassard/ssm-env/commit/e78eef8e76fddf4c1ccac0812f060008acfd7405))
+
 ## [0.3.7](https://github.com/gplassard/ssm-env/compare/v0.3.6...v0.3.7) (2025-09-01)
 
 

@@ -1,6 +1,6 @@
 [package]
 authors = [ "Gabriel Plassard <2485407+gplassard@users.noreply.github.com>" ]
-version = "0.3.7"
+version = "0.3.8"
 edition = "2021"
 name = "ssm-env"
 
