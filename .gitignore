@@ -10,7 +10,7 @@ node_modules/
 .DS_Store
 target
 !/.github/workflows/rust-build.yml
-!/.github/workflows/rust-release.yml
+!/.github/workflows/rust-build-release-artifacts.yml
 !/.github/workflows/rust-lint.yml
 !/.github/workflows/pull-request-lint.yml
 !/.github/workflows/upgrade-nodejs-dependencies.yml
