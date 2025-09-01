@@ -1958,7 +1958,7 @@ dependencies = [
 
 [[package]]
 name = "ssm-env"
-version = "0.3.5"
+version = "0.3.6"
 dependencies = [
  "aws-config",
  "aws-sdk-ssm",
