@@ -8,8 +8,6 @@ node_modules/
 *.iml
 .vscode
 .DS_Store
-!/Cargo.toml
-target
 !/.github/workflows/rust-build.yml
 !/.github/workflows/rust-release.yml
 !/.github/workflows/rust-lint.yml
