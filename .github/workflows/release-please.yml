@@ -19,7 +19,7 @@ jobs:
           private-key: ${{ secrets.PROJEN_APP_PRIVATE_KEY }}
           permission-pull-requests: write
           permission-contents: write
-          permission-workflows: write
       - uses: googleapis/release-please-action@v4
         with:
           release-type: rust
+          token: ${{ steps.generate_token.outputs.token }}
