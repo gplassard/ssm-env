@@ -20,4 +20,5 @@ const project = new RustProject({
       }
    }
 });
+project.tryFindObjectFile('release-please-config.json')?.addOverride('packages.\\..include-component-in-tag', false)
 project.synth();
