@@ -23,6 +23,8 @@ aws-vault exec admin -- ssm-env exec -- <command>
 aws-vault exec admin -- ssm-env exec --contexts context-1 --contexts context-2 -- <command>
 # execute with credentials retrieved from AWS Parameter Store at /my/prefix-1/<ENV_VARIABLE> and /my/prefix-2/<ENV_VARIABLE>
 aws-vault exec admin -- ssm-env exec --ssm-path-prefixes /my/prefix-1/ --ssm-path-prefixes /my/prefix-2/ -- <command>
+# execute with specific SSM parameters mapped to environment variables
+aws-vault exec admin -- ssm-env exec --param-map /app/db/password=DB_PASSWORD --param-map /app/api/key=API_KEY -- <command>
 # execute with credentials retrieved from AWS Parameter Store at /app/ssm-env/ansible-vault and put in a temporary file compatible with ansible vault
 aws-vault exec admin -- ssm-env  exec-ansible-vault-mode -- <command>
 ```
