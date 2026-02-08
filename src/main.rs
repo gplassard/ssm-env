@@ -60,7 +60,9 @@ async fn run(cli: Cli) -> Result<Result<(), CliError>, CliError> {
                     if parts.len() == 2 {
                         let ssm_path = parts[0].to_string();
                         let env_var_name = parts[1].to_string();
-                        if let Some(value) = fetch_ssm_parameter(ssm_client.clone(), ssm_path).await? {
+                        if let Some(value) =
+                            fetch_ssm_parameter(ssm_client.clone(), ssm_path).await?
+                        {
                             env_variables.insert(env_var_name, value);
                         }
                     }
