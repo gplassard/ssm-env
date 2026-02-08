@@ -33,13 +33,14 @@ async fn run(cli: Cli) -> Result<Result<(), CliError>, CliError> {
         SubCommand::Exec {
             ssm_path_prefixes,
             contexts,
+            param_map,
             env_prefix,
             command,
             args,
         } => {
             let mut env_variables: HashMap<String, String> = HashMap::new();
 
-            if contexts.is_empty() && ssm_path_prefixes.is_empty() {
+            if contexts.is_empty() && ssm_path_prefixes.is_empty() && param_map.is_empty() {
                 // Fallback to default path
                 let default_path = "/app/ssm-env/env/".to_string();
                 let parameters = fetch_ssm_parameters(ssm_client.clone(), default_path).await?;
@@ -53,6 +54,16 @@ async fn run(cli: Cli) -> Result<Result<(), CliError>, CliError> {
                 for prefix in ssm_path_prefixes {
                     let parameters = fetch_ssm_parameters(ssm_client.clone(), prefix).await?;
                     env_variables.extend(parameters);
+                }
+                for mapping in param_map {
+                    let parts: Vec<&str> = mapping.splitn(2, '=').collect();
+                    if parts.len() == 2 {
+                        let ssm_path = parts[0].to_string();
+                        let env_var_name = parts[1].to_string();
+                        if let Some(value) = fetch_ssm_parameter(ssm_client.clone(), ssm_path).await? {
+                            env_variables.insert(env_var_name, value);
+                        }
+                    }
                 }
             }
 
