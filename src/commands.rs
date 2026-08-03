@@ -16,7 +16,7 @@ pub fn command_exec_ansible_vault_mode(
         .to_str()
         .unwrap_or("ssm-env-default")
         .to_string();
-    info!("Temporary file {:?} created", &vault_file_name);
+    info!("Temporary file {:?} created", vault_file_name);
     vault_file.write_all(
         secret
             .ok_or(CliError::from("The provided secret is empty"))?
@@ -31,7 +31,7 @@ pub fn command_exec_ansible_vault_mode(
     .collect();
     let res = command_exec(command, args, env_variables, None)?;
     vault_file.close()?;
-    info!("Temporary file {:?} cleaned", &vault_file_name);
+    info!("Temporary file {:?} cleaned", vault_file_name);
     Ok(res)
 }
 
