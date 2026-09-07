@@ -1,17 +1,17 @@
-use aws_sdk_ssm::Error as SsmError;
+use crate::ssm::SsmError;
 
 #[derive(Debug)]
 #[allow(dead_code)]
 pub struct CliError {
     message: String,
-    error: Option<Box<dyn std::error::Error>>,
+    error: Option<Box<dyn std::error::Error + Send + Sync>>,
 }
 
 impl From<SsmError> for CliError {
     fn from(error: SsmError) -> Self {
         CliError {
             message: "AWS SSM error".to_string(),
-            error: Some(Box::new(error)),
+            error: Some(error),
         }
     }
 }
@@ -19,7 +19,7 @@ impl From<std::io::Error> for CliError {
     fn from(error: std::io::Error) -> Self {
         CliError {
             message: "IO error".to_string(),
-            error: Some(Box::new(error)),
+            error: Some(Box::new(error) as Box<dyn std::error::Error + Send + Sync>),
         }
     }
 }

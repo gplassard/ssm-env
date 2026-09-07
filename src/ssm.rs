@@ -1,7 +1,9 @@
 use aws_sdk_ssm::Client;
-use aws_sdk_ssm::Error as SsmError;
 use log::debug;
 use std::collections::HashMap;
+use std::error::Error as StdError;
+
+pub type SsmError = Box<dyn StdError + Send + Sync>;
 
 pub async fn fetch_ssm_parameters(
     ssm_client: Client,
@@ -12,7 +14,8 @@ pub async fn fetch_ssm_parameters(
         .get_parameters_by_path()
         .path(&path_prefix)
         .send()
-        .await?;
+        .await
+        .map_err(|e| Box::new(e) as Box<dyn StdError + Send + Sync>)?;
     debug!("SSM parameters retrieved");
 
     let env_variables: HashMap<String, String> = result
@@ -33,7 +36,12 @@ pub async fn fetch_ssm_parameter(
     path: String,
 ) -> Result<Option<String>, SsmError> {
     debug!("retrieving SSM parameter {}", path);
-    let result = ssm_client.get_parameter().name(&path).send().await?;
+    let result = ssm_client
+        .get_parameter()
+        .name(&path)
+        .send()
+        .await
+        .map_err(|e| Box::new(e) as Box<dyn StdError + Send + Sync>)?;
     debug!("SSM parameter retrieved");
 
     Ok(result.parameter.and_then(|p| p.value))
