@@ -3,6 +3,9 @@ const package = require('./package.json');
 
 const project = new RustProject({
    name: 'ssm-env',
+   rustBuildReleaseArtifactsAction: {
+     msvc: true,
+   },
    cargo: {
       package: {
          authors: ['Gabriel Plassard <gabriel.plassard@gmail.com>'],
@@ -20,5 +23,4 @@ const project = new RustProject({
       }
    }
 });
-project.tryFindObjectFile('release-please-config.json')?.addOverride('packages.\\..include-component-in-tag', false)
 project.synth();
