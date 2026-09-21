@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.1](https://github.com/gplassard/ssm-env/compare/v0.5.0...v0.5.1) (2026-09-21)
+
+
+### Bug Fixes
+
+* **windows:** fix windows release artifact ([#65](https://github.com/gplassard/ssm-env/issues/65)) ([3ea1f46](https://github.com/gplassard/ssm-env/commit/3ea1f46780f9299219994bffa5a3bee4c2c73e4c))
+
 ## [0.5.0](https://github.com/gplassard/ssm-env/compare/v0.4.1...v0.5.0) (2026-09-21)
 
 
