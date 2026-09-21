@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.0](https://github.com/gplassard/ssm-env/compare/v0.4.1...v0.5.0) (2026-09-21)
+
+
+### Features
+
+* **release:** build for arm ([#63](https://github.com/gplassard/ssm-env/issues/63)) ([ea82e9e](https://github.com/gplassard/ssm-env/commit/ea82e9e4900350290f4600fd27afa3e1b08a11bc))
+
 ## [0.4.1](https://github.com/gplassard/ssm-env/compare/v0.4.0...v0.4.1) (2026-02-08)
 
 
