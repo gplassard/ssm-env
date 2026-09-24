@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.2](https://github.com/gplassard/ssm-env/compare/v0.5.1...v0.5.2) (2026-09-24)
+
+
+### Bug Fixes
+
+* **update:** update dependencies to fix build ([#67](https://github.com/gplassard/ssm-env/issues/67)) ([cdcb862](https://github.com/gplassard/ssm-env/commit/cdcb862d7313d89b3c2828e2fa1714904ce18a8a))
+
 ## [0.5.1](https://github.com/gplassard/ssm-env/compare/v0.5.0...v0.5.1) (2026-09-21)
 
 
